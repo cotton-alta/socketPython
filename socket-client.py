@@ -1,33 +1,23 @@
 import socket
 import webbrowser
 
-host = "127.0.0.1"
-port = 8080
-url = "http://localhost:8080/"
+host = "127.0.0.1" #接続するサーバのIPアドレス指定
+port = 8080 #接続要求するポート番号を指定
+url = "http://localhost:8080/" #ブラウザ上で開くurlを指定
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #IPv4を指定
 
 print(host)
 
-client.connect((host, port))
+client.connect((host, port)) #接続試行
 
-massage = "helloworld.html"
+massage = "helloworld.html" #サーバー側に送信する文字列データを設定
 
-# while True:
-#     val = input('どちらのファイルを読み込みますか？ \n 1 : helloworld.html \n 2 : index.html')
-#     if val == '1':
-#         massage = 'helloworld.html'
-#         break
-#     elif val == '2':
-#         massage = 'index.html'
-#         break
-#     else:
-#         print('正しく入力してください')
-client.sendall(massage.encode('utf-8'))
+client.sendall(massage.encode('utf-8')) #指定した文字列データをサーバーに送信
 
-webbrowser.open(url)
-input('終了しますか')
+webbrowser.open(url) #ブラウザを自動起動
+input('終了しますか') #終了指示待ち受け
 
-response = client.recv(4096)
+response = client.recv(4096) #データの受け取り
 
 print(response)

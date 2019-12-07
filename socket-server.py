@@ -10,6 +10,7 @@ HELLOWORLD_HTML = "helloworld.html" #HTMLファイル
 NOTFOUND_HTML = "notfound.html" #HTMLファイル
 fileExistence = True
 
+#helloworld.htmlの有無の確認
 if  os.path.isfile("helloworld.html"):
 
 	fileExistence = True
@@ -31,6 +32,7 @@ while True:
 	if rcmsg == '': #受信データがなかった場合break
 		break
 
+	#helloworld.htmlが存在した場合の処理
 	if fileExistence == True:
 		fin = open(HELLOWORLD_HTML, "rt") #HTMLファイルを開く
 		msg = fin.read()
@@ -39,24 +41,16 @@ while True:
 		
 		clientsocket.sendall(msg.encode("cp932")) #HTMLファイルを出力
 		print('True')
+	
+	#helloworld.htmlが存在しなかった場合の処理
 	else:
 		fin = open(NOTFOUND_HTML, "rt")
 		msg_fa = fin.read()
 		fin.close()
-		msg_fa = "HTTP/1.1 404 Not Found\n\n" + msg_fa
+		msg_fa = "HTTP/1.1 404 Not Found\n\n" + msg_fa #ステータスラインを付加
 
-		clientsocket.sendall(msg_fa.encode("cp932"))
+		clientsocket.sendall(msg_fa.encode("cp932")) #htmlファイルを出力
 		print('file is not find...')
-
-	# else:
-	# elif rcmsg == 'index.html' or fileExistence == False:
-	# 	fin = open(NOTFOUND_HTML, "rt")
-	# 	msg_fa = fin.read()
-	# 	fin.close()
-	# 	msg_fa = "HTTP/1.1 404 Not Found\n\n" + msg_fa
-
-	# 	clientsocket.sendall(msg_fa.encode("cp932"))
-	# 	print('file is not find...')
 
 	print('Received -> %s' % (rcmsg)) #受信データの出力
 
